@@ -1,9 +1,9 @@
 require_relative '../../lib/utils.rb'
 require_relative '../spec_helper.rb'
 
-describe 'utils' do
+describe 'Utils' do
 
-  describe '#filenames_from_directory' do
+  describe '.filenames_from_directory' do
 
     before(:all) do
       @tmp_dir = Dir.mktmpdir
@@ -18,7 +18,7 @@ describe 'utils' do
         FileUtils.touch('.git/subfile')
       end
 
-      @files = filenames_from_directory(@tmp_dir)
+      @files = Trebuchet::Utils.filenames_from_directory(@tmp_dir)
     end
 
     it 'includes all the files' do
@@ -55,19 +55,19 @@ describe 'utils' do
 
   end
 
-  describe '#safe_environment_name' do
+  describe '.safe_environment_name' do
 
     it 'truncates long application names' do
-      safe_environment_name('01234567890123456789', 'foo').should == '0123456789-dev-foo'
+      Trebuchet::Utils.safe_environment_name('01234567890123456789', 'foo').should == '0123456789-dev-foo'
     end
 
     it 'truncates long version labels' do
-      safe_environment_name('foo', '01234567890123456789').should == 'foo-dev-01234567'
+      Trebuchet::Utils.safe_environment_name('foo', '01234567890123456789').should == 'foo-dev-01234567'
     end
 
     it 'ensures that the name never ends with a dash' do
-      safe_environment_name('foo', '').should == 'foo-dev'
-      safe_environment_name('foo', '0-').should == 'foo-dev-0'
+      Trebuchet::Utils.safe_environment_name('foo', '').should == 'foo-dev'
+      Trebuchet::Utils.safe_environment_name('foo', '0-').should == 'foo-dev-0'
     end
 
   end
